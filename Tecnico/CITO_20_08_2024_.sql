@@ -1,0 +1,1674 @@
+-- MySQL dump 10.13  Distrib 5.6.13, for Win32 (x86)
+--
+-- Host: localhost    Database: cito
+-- ------------------------------------------------------
+-- Server version	5.1.49-community
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `arquivocaso`
+--
+
+DROP TABLE IF EXISTS `arquivocaso`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `arquivocaso` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `CASO` decimal(5,0) NOT NULL,
+  `TIPO` varchar(1) NOT NULL,
+  `FORMATO` varchar(45) NOT NULL,
+  `PATHARQUIVO` varchar(1000) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_ARQUIVOCASO_EMPRESA` (`CODIGOEMPRESA`),
+  KEY `FK_ARQUIVOCASO_CASO` (`CASO`),
+  CONSTRAINT `FK_ARQUIVOCASO_EMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`),
+  CONSTRAINT `FK_ARQUIVOCASO_CASO` FOREIGN KEY (`CASO`) REFERENCES `caso` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `arquivocaso`
+--
+
+LOCK TABLES `arquivocaso` WRITE;
+/*!40000 ALTER TABLE `arquivocaso` DISABLE KEYS */;
+/*!40000 ALTER TABLE `arquivocaso` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `caso`
+--
+
+DROP TABLE IF EXISTS `caso`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `caso` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `CODIGO` varchar(45) NOT NULL,
+  `CLIENTE` decimal(5,0) NOT NULL,
+  `LAYOUT` decimal(5,0) NOT NULL,
+  `SITUACAO` varchar(45) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  `PACIENTE` decimal(5,0) NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_CASO_EMPRESA` (`CODIGOEMPRESA`),
+  KEY `FK_CASO_CLIENTE` (`CLIENTE`),
+  KEY `FK_CASO_LAYOUT` (`LAYOUT`),
+  CONSTRAINT `FK_CASO_CLIENTE` FOREIGN KEY (`CLIENTE`) REFERENCES `cliente` (`ID`),
+  CONSTRAINT `FK_CASO_EMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`),
+  CONSTRAINT `FK_CASO_LAYOUT` FOREIGN KEY (`LAYOUT`) REFERENCES `layout` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `caso`
+--
+
+LOCK TABLES `caso` WRITE;
+/*!40000 ALTER TABLE `caso` DISABLE KEYS */;
+INSERT INTO `caso` VALUES (1,1,'347-78585',1,1,'EM ANDAMENTO','ADMIN','2024-08-15 16:16:30',NULL,1);
+/*!40000 ALTER TABLE `caso` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cliente`
+--
+
+DROP TABLE IF EXISTS `cliente`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cliente` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `NOME` varchar(100) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `NUMERO` varchar(5) DEFAULT NULL,
+  `COMPLEMENTO` varchar(200) DEFAULT NULL,
+  `CEP` varchar(10) DEFAULT NULL,
+  `TELEFONE` varchar(45) DEFAULT NULL,
+  `CNPJ` varchar(18) DEFAULT NULL,
+  `CPF` varchar(18) DEFAULT NULL,
+  `ATIVO` varchar(1) NOT NULL,
+  `DATACADASTRO` datetime DEFAULT NULL,
+  `EMAIL` varchar(45) DEFAULT NULL,
+  `CELULAR` varchar(45) DEFAULT NULL,
+  `LOGRADOURO` varchar(200) DEFAULT NULL,
+  `TIPOLOGRADOURO` varchar(45) DEFAULT NULL,
+  `BAIRRO` varchar(200) DEFAULT NULL,
+  `CIDADE` varchar(200) DEFAULT NULL,
+  `UF` varchar(2) DEFAULT NULL,
+  `USUARIOACESSO` varchar(45) DEFAULT NULL,
+  `SENHAACESSO` varchar(45) DEFAULT NULL,
+  `SEXO` varchar(1) DEFAULT NULL,
+  `NASCIMENTO` date DEFAULT NULL,
+  `CANALPREFERENCIAL` varchar(1) DEFAULT NULL,
+  `NOMESOCIAL` varchar(100) DEFAULT NULL,
+  `APELIDO` varchar(100) DEFAULT NULL,
+  `CODIGO` varchar(100) DEFAULT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_EMPRESATIPOEXAME_idx` (`CODIGOEMPRESA`),
+  CONSTRAINT `FK_CLIENTEEMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cliente`
+--
+
+LOCK TABLES `cliente` WRITE;
+/*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
+INSERT INTO `cliente` VALUES (1,1,'INSTITUTO HERMES PARDINI S/A','ADMIN','2024-08-14 21:55:29','66',NULL,'30.140-070',NULL,'19.378.769/0116-15',NULL,'S','2024-08-14 21:55:29','cito@hermespardini.com.br','(31)99999-9999','AIMORES','RUA','FUNCIONARIOS','BELO HORIZONTE','MG','hp','hp1234',NULL,NULL,NULL,NULL,'HP','INST HERMES PARDINI',NULL);
+/*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `contrato`
+--
+
+DROP TABLE IF EXISTS `contrato`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `contrato` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `CLIENTE` decimal(5,0) NOT NULL,
+  `INICIOVIGENCIA` date NOT NULL,
+  `FIMVIGENCIA` date DEFAULT NULL,
+  `CODIGOTABELA` decimal(5,0) DEFAULT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_EMPRESA_CONTRATO` (`CODIGOEMPRESA`),
+  KEY `FK_CLIENTE_CONTRATO2` (`CLIENTE`),
+  KEY `FK_TABELA_CONTRATO` (`CODIGOTABELA`),
+  CONSTRAINT `FK_CLIENTE_CONTRATO2` FOREIGN KEY (`CLIENTE`) REFERENCES `cliente` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_EMPRESA_CONTRATO` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_TABELA_CONTRATO` FOREIGN KEY (`CODIGOTABELA`) REFERENCES `tabela` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `contrato`
+--
+
+LOCK TABLES `contrato` WRITE;
+/*!40000 ALTER TABLE `contrato` DISABLE KEYS */;
+INSERT INTO `contrato` VALUES (1,1,1,'2024-08-14',NULL,1,'ADMIN','2024-08-14 22:03:56',NULL);
+/*!40000 ALTER TABLE `contrato` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `deparaexame`
+--
+
+DROP TABLE IF EXISTS `deparaexame`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `deparaexame` (
+  `ID` decimal(5,0) NOT NULL,
+  `EXAME` decimal(5,0) NOT NULL,
+  `CODIGO` varchar(45) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `CLIENTE` decimal(5,0) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_EMPRESADEPARAEXAME_idx` (`CODIGOEMPRESA`),
+  KEY `FK_EXAMEDEPARAEXAME_idx` (`EXAME`),
+  KEY `FK_DEPARAEXAME_CLIENTE` (`CLIENTE`),
+  CONSTRAINT `FK_DEPARAEXAME_CLIENTE` FOREIGN KEY (`CLIENTE`) REFERENCES `cliente` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_DEPARAEXAME_EMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_DEPARAEXAME_EXAME` FOREIGN KEY (`EXAME`) REFERENCES `exame` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `deparaexame`
+--
+
+LOCK TABLES `deparaexame` WRITE;
+/*!40000 ALTER TABLE `deparaexame` DISABLE KEYS */;
+INSERT INTO `deparaexame` VALUES (1,1,'CARIOG',1,1,'ADMIN','2024-08-17 18:53:35',NULL);
+/*!40000 ALTER TABLE `deparaexame` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `detalhecaso`
+--
+
+DROP TABLE IF EXISTS `detalhecaso`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `detalhecaso` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `CASO` decimal(5,0) NOT NULL,
+  `LAYOUT` decimal(5,0) NOT NULL,
+  `ELEMENTO` decimal(5,0) NOT NULL,
+  `VALOR` varchar(45) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_DETALHECASO_EMPRESA` (`CODIGOEMPRESA`),
+  KEY `FK_DETALHECASO_LAYOUT` (`LAYOUT`),
+  KEY `FK_DETALHECASO_ELEMENTO` (`ELEMENTO`),
+  KEY `FK_DETALHECASO_CASO` (`CASO`),
+  CONSTRAINT `FK_DETALHECASO_CASO` FOREIGN KEY (`CASO`) REFERENCES `caso` (`ID`),
+  CONSTRAINT `FK_DETALHECASO_ELEMENTO` FOREIGN KEY (`ELEMENTO`) REFERENCES `elemento` (`ID`),
+  CONSTRAINT `FK_DETALHECASO_EMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`),
+  CONSTRAINT `FK_DETALHECASO_LAYOUT` FOREIGN KEY (`LAYOUT`) REFERENCES `layout` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `detalhecaso`
+--
+
+LOCK TABLES `detalhecaso` WRITE;
+/*!40000 ALTER TABLE `detalhecaso` DISABLE KEYS */;
+INSERT INTO `detalhecaso` VALUES (1,1,1,1,1,'347-78585','ADMIN','2024-08-15 21:07:10',NULL),(2,1,1,1,2,'08231044','ADMIN','2024-08-15 21:07:10',NULL),(3,1,1,1,3,'RN DE EVELYN JOVITA','ADMIN','2024-08-15 21:07:10',NULL),(4,1,1,1,4,'','ADMIN','2024-08-15 21:07:10',NULL),(5,1,1,1,5,'GUIMARAE','ADMIN','2024-08-15 21:07:10',NULL),(6,1,1,1,6,'','ADMIN','2024-08-15 21:07:10',NULL),(7,1,1,1,7,'1','ADMIN','2024-08-15 21:07:10',NULL),(8,1,1,1,8,'Sangue Periferico','ADMIN','2024-08-15 21:07:10',NULL),(9,1,1,1,9,'400','ADMIN','2024-08-15 21:07:10',NULL),(10,1,1,1,10,'INST HERMES PARDINI','ADMIN','2024-08-15 21:07:10',NULL),(11,1,1,1,11,'CARIOG','ADMIN','2024-08-15 21:07:10',NULL),(12,1,1,1,12,'SINDROME DOWN?','ADMIN','2024-08-15 21:07:10',NULL),(13,1,1,1,13,'31/08/2023 11:03:03','ADMIN','2024-08-15 21:07:10',NULL),(14,1,1,1,14,'4','ADMIN','2024-08-15 21:07:10',NULL),(15,1,1,1,15,'','ADMIN','2024-08-15 21:07:10',NULL),(16,1,1,1,16,'','ADMIN','2024-08-15 21:07:10',NULL),(17,1,1,1,17,'20','ADMIN','2024-08-15 21:07:10',NULL),(18,1,1,1,18,'CARIÓTIPO CONSTITUCIONAL COM BANDA G','ADMIN','2024-08-15 21:07:10',NULL),(19,1,1,1,19,'20','ADMIN','2024-08-15 21:07:10',NULL),(20,1,1,1,20,'','ADMIN','2024-08-15 21:07:10',NULL),(21,1,1,1,21,'','ADMIN','2024-08-15 21:07:10',NULL),(22,1,1,1,22,'','ADMIN','2024-08-15 21:07:10',NULL),(23,1,1,1,23,'False','ADMIN','2024-08-15 21:07:10',NULL),(24,1,1,1,24,'Infocito','ADMIN','2024-08-15 21:07:10',NULL),(25,1,1,1,25,'31/08/2023 11:03:03','ADMIN','2024-08-15 21:07:10',NULL),(26,1,1,1,26,'admin','ADMIN','2024-08-15 21:07:10',NULL),(27,1,1,1,27,'01/09/2023 19:07:28','ADMIN','2024-08-15 21:07:10',NULL),(28,1,1,1,28,'0545','ADMIN','2024-08-15 21:07:10',NULL),(29,1,1,1,29,'','ADMIN','2024-08-15 21:07:10',NULL),(30,1,1,1,30,'Cytogenetics','ADMIN','2024-08-15 21:07:10',NULL);
+/*!40000 ALTER TABLE `detalhecaso` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `disponibilidadeespecialista`
+--
+
+DROP TABLE IF EXISTS `disponibilidadeespecialista`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `disponibilidadeespecialista` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `ESPECIALISTA` decimal(5,0) NOT NULL,
+  `INICIOVIGENCIA` date NOT NULL,
+  `FIMVIGENCIA` date DEFAULT NULL,
+  `DESCRICAO` varchar(100) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_DISPONIBILIDADEESPECIALISTAEMPRESA` (`CODIGOEMPRESA`),
+  KEY `FK_DISPONIBILIDADEESPECIALISTA_ESPECIALISTA` (`ESPECIALISTA`),
+  CONSTRAINT `FK_DISPONIBILIDADEESPECIALISTAEMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`),
+  CONSTRAINT `FK_DISPONIBILIDADEESPECIALISTA_ESPECIALISTA` FOREIGN KEY (`ESPECIALISTA`) REFERENCES `especialista` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `disponibilidadeespecialista`
+--
+
+LOCK TABLES `disponibilidadeespecialista` WRITE;
+/*!40000 ALTER TABLE `disponibilidadeespecialista` DISABLE KEYS */;
+INSERT INTO `disponibilidadeespecialista` VALUES (1,1,1,'2024-08-15',NULL,'CALENDARIO 2024 V1','ADMIN','2024-08-15 21:31:06',NULL),(2,1,2,'2024-08-15',NULL,'CALENDARIO 2024 V1','ADMIN','2024-08-15 21:31:06',NULL),(3,1,3,'2024-08-15',NULL,'CALENDARIO 2024 V1','ADMIN','2024-08-15 21:31:06',NULL),(4,1,4,'2024-08-15',NULL,'CALENDARIO 2024 V1','ADMIN','2024-08-15 21:31:06',NULL);
+/*!40000 ALTER TABLE `disponibilidadeespecialista` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `disponibilidadeespecialistadetalhe`
+--
+
+DROP TABLE IF EXISTS `disponibilidadeespecialistadetalhe`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `disponibilidadeespecialistadetalhe` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `DISPONIBILIDADEESPECIALISTA` decimal(5,0) NOT NULL,
+  `TURNO` varchar(1) NOT NULL,
+  `DIA` varchar(3) NOT NULL,
+  `INICIO` varchar(5) NOT NULL,
+  `FIM` varchar(5) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_DISPONIBILIDADEDETALHE_EMPRESA` (`CODIGOEMPRESA`),
+  KEY `FK_DISPONIBILIDADEDETALHE_DISPESPEC` (`DISPONIBILIDADEESPECIALISTA`),
+  CONSTRAINT `FK_DISPONIBILIDADEDETALHE_DISPESPEC` FOREIGN KEY (`DISPONIBILIDADEESPECIALISTA`) REFERENCES `disponibilidadeespecialista` (`ID`),
+  CONSTRAINT `FK_DISPONIBILIDADEDETALHE_EMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `disponibilidadeespecialistadetalhe`
+--
+
+LOCK TABLES `disponibilidadeespecialistadetalhe` WRITE;
+/*!40000 ALTER TABLE `disponibilidadeespecialistadetalhe` DISABLE KEYS */;
+INSERT INTO `disponibilidadeespecialistadetalhe` VALUES (1,1,1,'*','DOM','','','ADMIN','2024-08-15 21:38:35',NULL),(2,1,1,'*','SEG','14:00','18:00','ADMIN','2024-08-15 21:38:35',NULL),(3,1,1,'*','TER','','','ADMIN','2024-08-15 21:38:35',NULL),(4,1,1,'*','QUA','14:00','18:00','ADMIN','2024-08-15 21:38:35',NULL),(5,1,1,'*','QUI','','','ADMIN','2024-08-15 21:38:35',NULL),(6,1,1,'*','SEX','14:00','18:00','ADMIN','2024-08-15 21:38:35',NULL),(7,1,1,'*','SAB','','','ADMIN','2024-08-15 21:38:35',NULL),(8,1,2,'*','DOM','','','ADMIN','2024-08-15 21:38:35',NULL),(9,1,2,'*','SEG','14:00','18:00','ADMIN','2024-08-15 21:38:35',NULL),(10,1,2,'*','TER','08:00','12:00','ADMIN','2024-08-15 21:38:35',NULL),(11,1,2,'*','QUA','14:00','18:00','ADMIN','2024-08-15 21:38:35',NULL),(12,1,2,'*','QUI','08:00','12:00','ADMIN','2024-08-15 21:38:35',NULL),(13,1,2,'*','SEX','14:00','18:00','ADMIN','2024-08-15 21:38:35',NULL),(14,1,2,'*','SAB','','','ADMIN','2024-08-15 21:38:35',NULL),(15,1,3,'*','DOM','','','ADMIN','2024-08-15 21:38:35',NULL),(16,1,3,'*','SEG','15:00','18:00','ADMIN','2024-08-15 21:38:35',NULL),(17,1,3,'*','TER','06:00','12:00','ADMIN','2024-08-15 21:38:35',NULL),(18,1,3,'*','QUA','15:00','18:00','ADMIN','2024-08-15 21:38:35',NULL),(19,1,3,'*','QUI','06:00','12:00','ADMIN','2024-08-15 21:38:35',NULL),(20,1,3,'*','SEX','15:00','18:00','ADMIN','2024-08-15 21:38:35',NULL),(21,1,3,'*','SAB','06:00','12:00','ADMIN','2024-08-15 21:38:35',NULL),(22,1,4,'*','DOM','06:00','12:00','ADMIN','2024-08-15 21:38:35',NULL),(23,1,4,'*','SEG','','','ADMIN','2024-08-15 21:38:35',NULL),(24,1,4,'*','TER','','','ADMIN','2024-08-15 21:38:35',NULL),(25,1,4,'*','QUA','','','ADMIN','2024-08-15 21:38:35',NULL),(26,1,4,'*','QUI','','','ADMIN','2024-08-15 21:38:35',NULL),(27,1,4,'*','SEX','','','ADMIN','2024-08-15 21:38:35',NULL),(28,1,4,'*','SAB','06:00','12:00','ADMIN','2024-08-15 21:38:35',NULL);
+/*!40000 ALTER TABLE `disponibilidadeespecialistadetalhe` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `disponibilidaderecursolab`
+--
+
+DROP TABLE IF EXISTS `disponibilidaderecursolab`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `disponibilidaderecursolab` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `RECURSOLAB` decimal(5,0) NOT NULL,
+  `INICIOVIGENCIA` date NOT NULL,
+  `FIMVIGENCIA` date DEFAULT NULL,
+  `DESCRICAO` varchar(100) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_DISPONILIDADERECLABEMPRESA` (`CODIGOEMPRESA`),
+  KEY `FK_DISPONIBILIDADERECREC` (`RECURSOLAB`),
+  CONSTRAINT `FK_DISPONIBILIDADERECREC` FOREIGN KEY (`RECURSOLAB`) REFERENCES `recursolab` (`ID`),
+  CONSTRAINT `FK_DISPONILIDADERECLABEMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `disponibilidaderecursolab`
+--
+
+LOCK TABLES `disponibilidaderecursolab` WRITE;
+/*!40000 ALTER TABLE `disponibilidaderecursolab` DISABLE KEYS */;
+INSERT INTO `disponibilidaderecursolab` VALUES (1,1,1,'2024-08-15',NULL,'CALENDARIO PADRAO 2024','ADMIN','2024-08-15 21:21:06',NULL),(2,1,2,'2024-08-15',NULL,'CALENDARIO PADRAO 2024','ADMIN','2024-08-15 21:21:20',NULL),(3,1,3,'2024-08-15',NULL,'CALENDARIO PADRAO 2024','ADMIN','2024-08-15 21:21:20',NULL),(4,1,4,'2024-08-15',NULL,'CALENDARIO PADRAO 2024','ADMIN','2024-08-15 21:21:20',NULL);
+/*!40000 ALTER TABLE `disponibilidaderecursolab` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `disponibilidaderecursolabdetalhe`
+--
+
+DROP TABLE IF EXISTS `disponibilidaderecursolabdetalhe`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `disponibilidaderecursolabdetalhe` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `DISPONIBILIDADERECURSOLAB` decimal(5,0) NOT NULL,
+  `TURNO` varchar(1) NOT NULL,
+  `DIA` varchar(3) NOT NULL,
+  `INICIO` varchar(5) NOT NULL,
+  `FIM` varchar(5) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_DISPRECDETALHE_EMPRESA` (`CODIGOEMPRESA`),
+  KEY `FK_DISPRECDETALHE_DISPONIBILIDADE` (`DISPONIBILIDADERECURSOLAB`),
+  CONSTRAINT `FK_DISPRECDETALHE_DISPONIBILIDADE` FOREIGN KEY (`DISPONIBILIDADERECURSOLAB`) REFERENCES `disponibilidaderecursolab` (`ID`),
+  CONSTRAINT `FK_DISPRECDETALHE_EMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `disponibilidaderecursolabdetalhe`
+--
+
+LOCK TABLES `disponibilidaderecursolabdetalhe` WRITE;
+/*!40000 ALTER TABLE `disponibilidaderecursolabdetalhe` DISABLE KEYS */;
+INSERT INTO `disponibilidaderecursolabdetalhe` VALUES (1,1,1,'*','DOM','06:00','14:00','ADMIN','2024-08-15 21:28:11',NULL),(2,1,1,'*','SEG','06:00','14:00','ADMIN','2024-08-15 21:28:11',NULL),(3,1,1,'*','TER','06:00','14:00','ADMIN','2024-08-15 21:28:11',NULL),(4,1,1,'*','QUA','06:00','14:00','ADMIN','2024-08-15 21:28:11',NULL),(5,1,1,'*','QUI','06:00','14:00','ADMIN','2024-08-15 21:28:11',NULL),(6,1,1,'*','SEX','06:00','14:00','ADMIN','2024-08-15 21:28:11',NULL),(7,1,1,'*','SAB','06:00','14:00','ADMIN','2024-08-15 21:28:11',NULL),(8,1,2,'*','DOM','06:00','14:00','ADMIN','2024-08-15 21:28:11',NULL),(9,1,2,'*','SEG','06:00','14:00','ADMIN','2024-08-15 21:28:11',NULL),(10,1,2,'*','TER','06:00','14:00','ADMIN','2024-08-15 21:28:11',NULL),(11,1,2,'*','QUA','06:00','14:00','ADMIN','2024-08-15 21:28:11',NULL),(12,1,2,'*','QUI','06:00','14:00','ADMIN','2024-08-15 21:28:11',NULL),(13,1,2,'*','SEX','06:00','14:00','ADMIN','2024-08-15 21:28:11',NULL),(14,1,2,'*','SAB','06:00','14:00','ADMIN','2024-08-15 21:28:11',NULL),(15,1,3,'*','DOM','06:00','14:00','ADMIN','2024-08-15 21:28:11',NULL),(16,1,3,'*','SEG','06:00','14:00','ADMIN','2024-08-15 21:28:11',NULL),(17,1,3,'*','TER','06:00','14:00','ADMIN','2024-08-15 21:28:11',NULL),(18,1,3,'*','QUA','06:00','14:00','ADMIN','2024-08-15 21:28:11',NULL),(19,1,3,'*','QUI','06:00','14:00','ADMIN','2024-08-15 21:28:11',NULL),(20,1,3,'*','SEX','06:00','14:00','ADMIN','2024-08-15 21:28:11',NULL),(21,1,3,'*','SAB','06:00','14:00','ADMIN','2024-08-15 21:28:11',NULL),(22,1,4,'*','DOM','06:00','14:00','ADMIN','2024-08-15 21:28:11',NULL),(23,1,4,'*','SEG','06:00','14:00','ADMIN','2024-08-15 21:28:11',NULL),(24,1,4,'*','TER','06:00','14:00','ADMIN','2024-08-15 21:28:11',NULL),(25,1,4,'*','QUA','06:00','14:00','ADMIN','2024-08-15 21:28:11',NULL),(26,1,4,'*','QUI','06:00','14:00','ADMIN','2024-08-15 21:28:11',NULL),(27,1,4,'*','SEX','06:00','14:00','ADMIN','2024-08-15 21:28:11',NULL),(28,1,4,'*','SAB','06:00','14:00','ADMIN','2024-08-15 21:28:11',NULL);
+/*!40000 ALTER TABLE `disponibilidaderecursolabdetalhe` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `elemento`
+--
+
+DROP TABLE IF EXISTS `elemento`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `elemento` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `ELEMENTOPAI` decimal(5,0) DEFAULT NULL,
+  `NOME` varchar(45) NOT NULL,
+  `TIPO` varchar(45) NOT NULL,
+  `MASCARA` varchar(45) DEFAULT NULL,
+  `OBS` varchar(45) DEFAULT NULL,
+  `OBRIGATORIO` varchar(1) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_ELEMENTO_EMPRESA` (`CODIGOEMPRESA`),
+  KEY `FK_ELEMENTO_PAI` (`ELEMENTOPAI`),
+  CONSTRAINT `FK_ELEMENTO_EMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`),
+  CONSTRAINT `FK_ELEMENTO_PAI` FOREIGN KEY (`ELEMENTOPAI`) REFERENCES `empresa` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `elemento`
+--
+
+LOCK TABLES `elemento` WRITE;
+/*!40000 ALTER TABLE `elemento` DISABLE KEYS */;
+INSERT INTO `elemento` VALUES (1,1,NULL,'Case','raiz',NULL,NULL,'S','admin','2024-08-15 15:56:37',NULL),(2,1,1,'Name','texto',NULL,NULL,'S','admin','2024-08-15 15:56:37',NULL),(3,1,1,'PatientID','numero',NULL,NULL,'S','admin','2024-08-15 15:56:37',NULL),(4,1,1,'FirstName','texto',NULL,NULL,'S','admin','2024-08-15 15:56:37',NULL),(5,1,1,'MiddleName','texto',NULL,NULL,'N','admin','2024-08-15 15:56:37',NULL),(6,1,1,'LastName','texto',NULL,NULL,'S','admin','2024-08-15 15:56:37',NULL),(7,1,1,'DateOfBirth','texto',NULL,NULL,'N','admin','2024-08-15 15:56:37',NULL),(8,1,1,'Gender','numero',NULL,NULL,'S','admin','2024-08-15 15:56:37',NULL),(9,1,1,'Specimen','texto',NULL,NULL,'S','admin','2024-08-15 15:56:37',NULL),(10,1,1,'BandResolution','numero',NULL,NULL,'S','admin','2024-08-15 15:56:37',NULL),(11,1,1,'ReferringPhysician','texto',NULL,NULL,'S','admin','2024-08-15 15:56:37',NULL),(12,1,1,'ReportingPhysician','texto',NULL,NULL,'S','admin','2024-08-15 15:56:37',NULL),(13,1,1,'ClinicalIndiction','texto',NULL,NULL,'S','admin','2024-08-15 15:56:37',NULL),(14,1,1,'ReceiveDate','datahora','DD/MM/YYYY HH:mm:ss',NULL,'S','admin','2024-08-15 15:56:37',NULL),(15,1,1,'Status','numero',NULL,NULL,'S','admin','2024-08-15 15:56:37',NULL),(16,1,1,'SpecialInstructions','texto',NULL,NULL,'N','admin','2024-08-15 15:56:37',NULL),(17,1,1,'FetusID','texto',NULL,NULL,'N','admin','2024-08-15 15:56:37',NULL),(18,1,1,'BodySite','numero',NULL,NULL,'S','admin','2024-08-15 15:56:37',NULL),(19,1,1,'Priority','texto',NULL,NULL,'S','admin','2024-08-15 15:56:37',NULL),(20,1,1,'GA','numero',NULL,NULL,'S','admin','2024-08-15 15:56:37',NULL),(21,1,1,'InstituteID','texto',NULL,NULL,'N','admin','2024-08-15 15:56:37',NULL),(22,1,1,'TimeZone','texto',NULL,NULL,'N','admin','2024-08-15 15:56:37',NULL),(23,1,1,'StateOfOrigin','texto',NULL,NULL,'N','admin','2024-08-15 15:56:37',NULL),(24,1,1,'Preliminary','booleano',NULL,NULL,'S','admin','2024-08-15 15:56:37',NULL),(25,1,1,'Lab','texto',NULL,NULL,'S','admin','2024-08-15 15:56:37',NULL),(26,1,1,'CreatedAt','datahora','DD/MM/YYYY HH:mm:ss',NULL,'S','admin','2024-08-15 15:56:37',NULL),(27,1,1,'CreatedBy','texto',NULL,NULL,'S','admin','2024-08-15 15:56:37',NULL),(28,1,1,'ModifiedAt','datahora','DD/MM/YYYY HH:mm:ss',NULL,'S','admin','2024-08-15 15:56:37',NULL),(29,1,1,'ModifiedBy','texto',NULL,NULL,'S','admin','2024-08-15 15:56:37',NULL),(30,1,1,'Type','texto',NULL,NULL,'S','admin','2024-08-15 15:56:37',NULL);
+/*!40000 ALTER TABLE `elemento` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `elementolayout`
+--
+
+DROP TABLE IF EXISTS `elementolayout`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `elementolayout` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `LAYOUT` decimal(5,0) NOT NULL,
+  `ELEMENTO` decimal(5,0) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_ELEMENTOLAYOUT_EMPRESA` (`CODIGOEMPRESA`),
+  KEY `FK_ELEMENTOLAYOUT_LAYOUT` (`LAYOUT`),
+  KEY `FK_ELEMENTOLAYOUT_ELEMENTO` (`ELEMENTO`),
+  CONSTRAINT `FK_ELEMENTOLAYOUT_ELEMENTO` FOREIGN KEY (`ELEMENTO`) REFERENCES `elemento` (`ID`),
+  CONSTRAINT `FK_ELEMENTOLAYOUT_EMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`),
+  CONSTRAINT `FK_ELEMENTOLAYOUT_LAYOUT` FOREIGN KEY (`LAYOUT`) REFERENCES `layout` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `elementolayout`
+--
+
+LOCK TABLES `elementolayout` WRITE;
+/*!40000 ALTER TABLE `elementolayout` DISABLE KEYS */;
+INSERT INTO `elementolayout` VALUES (1,1,1,1,'ADMIN','2024-08-15 16:01:54',NULL),(2,1,1,2,'ADMIN','2024-08-15 16:01:54',NULL),(3,1,1,3,'ADMIN','2024-08-15 16:01:54',NULL),(4,1,1,4,'ADMIN','2024-08-15 16:01:54',NULL),(5,1,1,5,'ADMIN','2024-08-15 16:01:54',NULL),(6,1,1,6,'ADMIN','2024-08-15 16:01:54',NULL),(7,1,1,7,'ADMIN','2024-08-15 16:01:54',NULL),(8,1,1,8,'ADMIN','2024-08-15 16:01:54',NULL),(9,1,1,9,'ADMIN','2024-08-15 16:01:54',NULL),(10,1,1,10,'ADMIN','2024-08-15 16:01:54',NULL),(11,1,1,11,'ADMIN','2024-08-15 16:01:54',NULL),(12,1,1,12,'ADMIN','2024-08-15 16:01:54',NULL),(13,1,1,13,'ADMIN','2024-08-15 16:01:54',NULL),(14,1,1,14,'ADMIN','2024-08-15 16:01:54',NULL),(15,1,1,15,'ADMIN','2024-08-15 16:01:54',NULL),(16,1,1,16,'ADMIN','2024-08-15 16:01:54',NULL),(17,1,1,17,'ADMIN','2024-08-15 16:01:54',NULL),(18,1,1,18,'ADMIN','2024-08-15 16:01:54',NULL),(19,1,1,19,'ADMIN','2024-08-15 16:01:54',NULL),(20,1,1,20,'ADMIN','2024-08-15 16:01:54',NULL),(21,1,1,21,'ADMIN','2024-08-15 16:01:54',NULL),(22,1,1,22,'ADMIN','2024-08-15 16:01:54',NULL),(23,1,1,23,'ADMIN','2024-08-15 16:01:54',NULL),(24,1,1,24,'ADMIN','2024-08-15 16:01:54',NULL),(25,1,1,25,'ADMIN','2024-08-15 16:01:54',NULL),(26,1,1,26,'ADMIN','2024-08-15 16:01:54',NULL),(27,1,1,27,'ADMIN','2024-08-15 16:01:54',NULL),(28,1,1,28,'ADMIN','2024-08-15 16:01:54',NULL),(29,1,1,29,'ADMIN','2024-08-15 16:01:54',NULL),(30,1,1,30,'ADMIN','2024-08-15 16:01:54',NULL);
+/*!40000 ALTER TABLE `elementolayout` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `empresa`
+--
+
+DROP TABLE IF EXISTS `empresa`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `empresa` (
+  `ID` decimal(5,0) NOT NULL,
+  `NOME` varchar(100) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  `NUMERO` varchar(5) DEFAULT NULL,
+  `COMPLEMENTO` varchar(200) DEFAULT NULL,
+  `CEP` varchar(10) DEFAULT NULL,
+  `TELEFONE` varchar(45) DEFAULT NULL,
+  `CNPJ` varchar(18) DEFAULT NULL,
+  `ATIVO` varchar(1) NOT NULL,
+  `DATACADASTRO` datetime DEFAULT NULL,
+  `DATACANCELAMENTO` datetime DEFAULT NULL,
+  `DATAFATURAMENTO` datetime DEFAULT NULL,
+  `EMAIL` varchar(45) DEFAULT NULL,
+  `CELULAR` varchar(45) DEFAULT NULL,
+  `MATRIZ` decimal(5,0) DEFAULT NULL,
+  `LOGRADOURO` varchar(200) DEFAULT NULL,
+  `TIPOLOGRADOURO` varchar(45) DEFAULT NULL,
+  `BAIRRO` varchar(200) DEFAULT NULL,
+  `CIDADE` varchar(200) DEFAULT NULL,
+  `UF` varchar(2) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_MATRIZ_EMPRESA_idx` (`MATRIZ`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `empresa`
+--
+
+LOCK TABLES `empresa` WRITE;
+/*!40000 ALTER TABLE `empresa` DISABLE KEYS */;
+INSERT INTO `empresa` VALUES (1,'INFOCITO CONSULTORIA E TREINAMENTO EM CITOGENETICA LTDA','ADMIN','2024-08-14 21:46:21',NULL,'840 A',NULL,'30.280-230',NULL,'21.930.481/0001-04','S','2024-08-14 21:46:21',NULL,NULL,'keila@infocito.com.br','(31)99999-9999',NULL,'VIOLETA','RUA','ESPLANADA','BELO HORIZONTE','MG'),(2,'INSTITUTO HERMES PARDINI S/A','ADMIN','2024-08-14 21:52:13',NULL,'66',NULL,'30.140-070',NULL,'19.378.769/0116-15','S','2024-08-14 21:52:13',NULL,NULL,'contato@hermespardini.com.br','(31)99999-9999',NULL,'AIMORES','RUA','FUNCIONARIOS','BELO HORIZONTE','MG');
+/*!40000 ALTER TABLE `empresa` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `especialista`
+--
+
+DROP TABLE IF EXISTS `especialista`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `especialista` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `CODIGOUSUARIO` decimal(5,0) NOT NULL,
+  `CONSELHO` varchar(45) NOT NULL,
+  `NUMEROCONSELHO` varchar(45) NOT NULL,
+  `UFCONSELHO` varchar(2) NOT NULL,
+  `CARGO` varchar(45) NOT NULL,
+  `ATIVO` char(1) NOT NULL,
+  `RV` char(1) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  `CODIGOTABELA` decimal(5,0) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_ESPECIALISTA_EMPRESA` (`CODIGOEMPRESA`),
+  KEY `FK_USUARIO_ESPECIALISTA` (`CODIGOUSUARIO`),
+  KEY `FK_TABELA_ESPECIALISTA` (`CODIGOTABELA`),
+  CONSTRAINT `FK_ESPECIALISTA_EMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_TABELA_ESPECIALISTA` FOREIGN KEY (`CODIGOTABELA`) REFERENCES `tabela` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_USUARIO_ESPECIALISTA` FOREIGN KEY (`CODIGOUSUARIO`) REFERENCES `usuario` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `especialista`
+--
+
+LOCK TABLES `especialista` WRITE;
+/*!40000 ALTER TABLE `especialista` DISABLE KEYS */;
+INSERT INTO `especialista` VALUES (1,1,3,'CBIO','11555','MG','BIOTÉCNICO','S','S','ADMIN','2024-08-14 23:45:49',NULL,1),(2,1,4,'CRM','98654','SP','MEDICO','S','S','ADMIN','2024-08-14 23:53:12',NULL,1),(3,1,5,'CRM','00654','ES','MEDICO','S','S','ADMIN','2024-08-14 23:53:12',NULL,1),(4,1,6,'CRO','12345','MG','DENTISTA','S','S','ADMIN','2024-08-14 23:53:12',NULL,1);
+/*!40000 ALTER TABLE `especialista` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `etapafluxo`
+--
+
+DROP TABLE IF EXISTS `etapafluxo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `etapafluxo` (
+  `ID` decimal(5,0) NOT NULL,
+  `DESCRICAO` varchar(200) NOT NULL,
+  `CODIGOETAPAANTERIOR` decimal(5,0) DEFAULT NULL,
+  `CODIGOETAPAPOSTERIOR` decimal(5,0) DEFAULT NULL,
+  `ATIVO` varchar(1) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `FLUXO` decimal(5,0) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_EMPRESAETAPAFLUXO_idx` (`CODIGOEMPRESA`),
+  KEY `FK_ETAPAFLUXO1` (`CODIGOETAPAANTERIOR`),
+  KEY `FK_ETAPAFLUXO2` (`CODIGOETAPAPOSTERIOR`),
+  KEY `FK_ETAPAFLUXO_FLUXO` (`FLUXO`),
+  CONSTRAINT `FK_EMPRESAETAPAFLUXO` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_ETAPAFLUXO1` FOREIGN KEY (`CODIGOETAPAANTERIOR`) REFERENCES `etapafluxo` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_ETAPAFLUXO2` FOREIGN KEY (`CODIGOETAPAPOSTERIOR`) REFERENCES `etapafluxo` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_ETAPAFLUXO_FLUXO` FOREIGN KEY (`FLUXO`) REFERENCES `fluxo` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `etapafluxo`
+--
+
+LOCK TABLES `etapafluxo` WRITE;
+/*!40000 ALTER TABLE `etapafluxo` DISABLE KEYS */;
+INSERT INTO `etapafluxo` VALUES (1,'ANALISE I DO CASO',NULL,2,'S',1,1,'ADMIN','2024-08-14 22:21:10',NULL),(2,'ANALISE II DO CASO',1,3,'S',1,1,'ADMIN','2024-08-14 22:21:10',NULL),(3,'CONFERENCIA',2,4,'S',1,1,'ADMIN','2024-08-14 22:21:10',NULL),(4,'LIBERACAO',3,NULL,'S',1,1,'ADMIN','2024-08-14 22:21:10',NULL),(5,'ANALISE I DO CASO',NULL,NULL,'S',1,2,'ADMIN','2024-08-14 22:23:00',NULL),(6,'ANALISE II DO CASO',1,NULL,'S',1,2,'ADMIN','2024-08-14 22:23:00',NULL);
+/*!40000 ALTER TABLE `etapafluxo` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `eventoetapa`
+--
+
+DROP TABLE IF EXISTS `eventoetapa`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `eventoetapa` (
+  `ID` decimal(5,0) NOT NULL,
+  `EVENTO` decimal(5,0) DEFAULT NULL,
+  `ETAPA` decimal(5,0) DEFAULT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `EVENTOANTERIOR` decimal(5,0) DEFAULT NULL,
+  `EVENTOPOSTERIOR` decimal(5,0) DEFAULT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_EVENTOETAPAEMPRESA_IDX` (`CODIGOEMPRESA`),
+  KEY `FK_EVENTOETAPA_EVENTO` (`EVENTO`),
+  KEY `FK_EVENTOETAPA_ETAPA` (`ETAPA`),
+  KEY `FK_EVENTOANTERIOR1` (`EVENTOANTERIOR`),
+  KEY `FK_EVENTOANTERIOR2` (`EVENTOPOSTERIOR`),
+  CONSTRAINT `FK_EVENTOETAPA_EMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_EVENTOETAPA_EVENTO` FOREIGN KEY (`EVENTO`) REFERENCES `eventos` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_EVENTOETAPA_ETAPA` FOREIGN KEY (`ETAPA`) REFERENCES `etapafluxo` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_EVENTOANTERIOR1` FOREIGN KEY (`EVENTOANTERIOR`) REFERENCES `eventos` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_EVENTOANTERIOR2` FOREIGN KEY (`EVENTOPOSTERIOR`) REFERENCES `eventos` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `eventoetapa`
+--
+
+LOCK TABLES `eventoetapa` WRITE;
+/*!40000 ALTER TABLE `eventoetapa` DISABLE KEYS */;
+/*!40000 ALTER TABLE `eventoetapa` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `eventos`
+--
+
+DROP TABLE IF EXISTS `eventos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `eventos` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGO` varchar(3) NOT NULL,
+  `DESCRICAO` varchar(200) NOT NULL,
+  `ATIVO` varchar(1) NOT NULL,
+  `VISIBILIDADE` varchar(1) NOT NULL,
+  `TIPO` varchar(1) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_EVENTOSEMPRESA_IDX` (`CODIGOEMPRESA`),
+  CONSTRAINT `FK_EVENTOSEMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `eventos`
+--
+
+LOCK TABLES `eventos` WRITE;
+/*!40000 ALTER TABLE `eventos` DISABLE KEYS */;
+INSERT INTO `eventos` VALUES (1,'1','CASO ANALISE IMPORTADO','S','P','A',1,'ADMIN','2024-08-14 23:06:21',NULL),(2,'5','CASO ANALISE CADASTRADO','S','P','A',1,'ADMIN','2024-08-14 23:06:21',NULL),(3,'10','ANALISTA DESIGNADO','S','P','A',1,'ADMIN','2024-08-14 23:06:21',NULL),(4,'15','ANALISE PENDENTE','S','P','A',1,'ADMIN','2024-08-14 23:06:21',NULL),(5,'20','ANALISE INICIADA','S','P','A',1,'ADMIN','2024-08-14 23:06:21',NULL),(6,'25','ANALISE PARALISADA','S','I','A',1,'ADMIN','2024-08-14 23:06:21',NULL),(7,'30','ANALISE RETOMADA','S','I','A',1,'ADMIN','2024-08-14 23:06:21',NULL),(8,'35','ANALISE CONCLUIDA','S','P','A',1,'ADMIN','2024-08-14 23:06:21',NULL),(9,'40','CONFERENTE DESIGNADO','S','P','A',1,'ADMIN','2024-08-14 23:06:21',NULL),(10,'45','CONFERENCIA PENDENTE','S','P','A',1,'ADMIN','2024-08-14 23:06:21',NULL),(11,'50','CONFERENCIA INICIADA','S','P','A',1,'ADMIN','2024-08-14 23:06:21',NULL),(12,'55','CONFERENCIA PARALISADA','S','P','A',1,'ADMIN','2024-08-14 23:06:21',NULL),(13,'60','CONFERENCIA RETOMADA','S','I','A',1,'ADMIN','2024-08-14 23:06:21',NULL),(14,'65','CONFERENCIA CONCLUIDA','S','P','A',1,'ADMIN','2024-08-14 23:06:21',NULL),(15,'70','LIBERADOR DESIGNADO','S','P','A',1,'ADMIN','2024-08-14 23:06:21',NULL),(16,'75','LIBERACAO PENDENTE','S','P','A',1,'ADMIN','2024-08-14 23:06:21',NULL),(17,'80','LAUDO LIBERADO','S','P','A',1,'ADMIN','2024-08-14 23:06:21',NULL),(18,'85','INCONSISTENCIA IDENTIFICADA','S','I','M',1,'ADMIN','2024-08-14 23:06:21',NULL),(19,'90','LAUDO RETIFICADO','S','P','A',1,'ADMIN','2024-08-14 23:06:21',NULL),(20,'95','CASO ANALISE ENCERRADO','S','I','A',1,'ADMIN','2024-08-14 23:06:21',NULL),(21,'100','CASO FATURADO','S','I','A',1,'ADMIN','2024-08-14 23:06:21',NULL),(22,'86','RETIFICAÇÃO SOLICITADA','S','I','M',1,'ADMIN','2024-08-17 18:47:46',NULL),(23,'101','SOLICITAÇÃO DE URGÊNCIA','S','I','M',1,'ADMIN','2024-08-17 18:47:46',NULL),(24,'102','SOLICITAÇÃO DE RECOLETA','S','I','M',1,'ADMIN','2024-08-17 18:47:46',NULL),(25,'81','LAUDO IMPORTADO','S','I','A',1,'ADMIN','2024-08-17 18:47:46',NULL);
+/*!40000 ALTER TABLE `eventos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `exame`
+--
+
+DROP TABLE IF EXISTS `exame`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `exame` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGO` varchar(200) NOT NULL,
+  `DESCRICAO` varchar(200) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `CODIGOTIPOEXAME` decimal(5,0) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_EMPRESAEXAME_idx` (`CODIGOEMPRESA`),
+  KEY `FK_EXAME_TIPOEXAME_idx` (`CODIGOTIPOEXAME`),
+  CONSTRAINT `FK_EMPRESAEXAME` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_EXAMETIPOEXAME` FOREIGN KEY (`CODIGOTIPOEXAME`) REFERENCES `tipoexame` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `exame`
+--
+
+LOCK TABLES `exame` WRITE;
+/*!40000 ALTER TABLE `exame` DISABLE KEYS */;
+INSERT INTO `exame` VALUES (1,'BANDA','BANDA G',1,1,'ADMIN','2024-08-14 23:20:38',NULL),(2,'MED','MEDULA',1,1,'ADMIN','2024-08-14 23:20:38',NULL),(3,'WILL','WILLIAMS',1,2,'ADMIN','2024-08-14 23:20:38',NULL),(4,'MUT','MUTACAO IDH1 E IDH2',1,2,'ADMIN','2024-08-14 23:20:38',NULL);
+/*!40000 ALTER TABLE `exame` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `fluxo`
+--
+
+DROP TABLE IF EXISTS `fluxo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `fluxo` (
+  `ID` decimal(5,0) NOT NULL,
+  `DESCRICAO` varchar(200) NOT NULL,
+  `INICIOVIGENCIA` date NOT NULL,
+  `FIMVIGENCIA` date DEFAULT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_EMPRESAFLUXO_idx` (`CODIGOEMPRESA`),
+  CONSTRAINT `FK_EMPRESAFLUXO` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `fluxo`
+--
+
+LOCK TABLES `fluxo` WRITE;
+/*!40000 ALTER TABLE `fluxo` DISABLE KEYS */;
+INSERT INTO `fluxo` VALUES (1,'FLUXO PADRAO','2024-08-14',NULL,1,'ADMIN','2024-08-14 22:14:09',NULL),(2,'FLUXO SABIN','2024-08-14',NULL,1,'ADMIN','2024-08-14 22:14:45',NULL);
+/*!40000 ALTER TABLE `fluxo` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `fluxocliente`
+--
+
+DROP TABLE IF EXISTS `fluxocliente`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `fluxocliente` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `FLUXO` decimal(5,0) NOT NULL,
+  `CLIENTE` decimal(5,0) NOT NULL,
+  `EXAME` decimal(5,0) DEFAULT NULL,
+  `ATIVO` varchar(1) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_FLUXOCLIENTE_EMPRESA` (`CODIGOEMPRESA`),
+  KEY `FK_FLUXOCLIENTE_FLUXO` (`FLUXO`),
+  KEY `FK_FLUXOCLIENTE_CLIENTE` (`CLIENTE`),
+  KEY `FK_FLUXOCLIENTE_EXAME` (`EXAME`),
+  CONSTRAINT `FK_FLUXOCLIENTE_EMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`),
+  CONSTRAINT `FK_FLUXOCLIENTE_FLUXO` FOREIGN KEY (`FLUXO`) REFERENCES `fluxo` (`ID`),
+  CONSTRAINT `FK_FLUXOCLIENTE_CLIENTE` FOREIGN KEY (`CLIENTE`) REFERENCES `cliente` (`ID`),
+  CONSTRAINT `FK_FLUXOCLIENTE_EXAME` FOREIGN KEY (`EXAME`) REFERENCES `exame` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `fluxocliente`
+--
+
+LOCK TABLES `fluxocliente` WRITE;
+/*!40000 ALTER TABLE `fluxocliente` DISABLE KEYS */;
+INSERT INTO `fluxocliente` VALUES (1,1,1,1,NULL,'S','admin','2024-08-20 23:11:38',1);
+/*!40000 ALTER TABLE `fluxocliente` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `funcao`
+--
+
+DROP TABLE IF EXISTS `funcao`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `funcao` (
+  `ID` decimal(5,0) NOT NULL,
+  `DESCRICAO` varchar(200) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_EMPRESA_FUNCAO_IDX` (`CODIGOEMPRESA`),
+  CONSTRAINT `FK_EMPRESA_FUNCAO` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `funcao`
+--
+
+LOCK TABLES `funcao` WRITE;
+/*!40000 ALTER TABLE `funcao` DISABLE KEYS */;
+INSERT INTO `funcao` VALUES (1,'ANALISTA',1,'ADMIN','2024-08-14 23:31:35',NULL),(2,'CONFERENTE',1,'ADMIN','2024-08-14 23:31:35',NULL),(3,'LIBERADOR',1,'ADMIN','2024-08-14 23:31:35',NULL);
+/*!40000 ALTER TABLE `funcao` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `funcaoespecialista`
+--
+
+DROP TABLE IF EXISTS `funcaoespecialista`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `funcaoespecialista` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGOFUNCAO` decimal(5,0) NOT NULL,
+  `CODIGOESPECIALISTA` decimal(5,0) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_EMPRESA_FUNCAO_IDX` (`CODIGOEMPRESA`),
+  KEY `FK_FUNCAO_ESPECIALISTA` (`CODIGOESPECIALISTA`),
+  KEY `FK_FUNCAO_FUNCAO` (`CODIGOFUNCAO`),
+  CONSTRAINT `FK_EMPRESA_FUNCAOESPECIALISTA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_FUNCAO_ESPECIALISTA` FOREIGN KEY (`CODIGOESPECIALISTA`) REFERENCES `especialista` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_FUNCAO_FUNCAO` FOREIGN KEY (`CODIGOFUNCAO`) REFERENCES `funcao` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `funcaoespecialista`
+--
+
+LOCK TABLES `funcaoespecialista` WRITE;
+/*!40000 ALTER TABLE `funcaoespecialista` DISABLE KEYS */;
+INSERT INTO `funcaoespecialista` VALUES (1,1,1,1,'ADMIN','2024-08-14 23:58:20',NULL),(2,1,2,1,'ADMIN','2024-08-14 23:58:20',NULL),(3,1,3,1,'ADMIN','2024-08-14 23:58:20',NULL),(4,1,4,1,'ADMIN','2024-08-14 23:58:20',NULL),(5,2,1,1,'ADMIN','2024-08-14 23:58:20',NULL),(6,3,1,1,'ADMIN','2024-08-14 23:58:21',NULL);
+/*!40000 ALTER TABLE `funcaoespecialista` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `historicosenha`
+--
+
+DROP TABLE IF EXISTS `historicosenha`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `historicosenha` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGOUSUARIO` decimal(5,0) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `SENHA` varchar(45) NOT NULL,
+  `INICIOVIGENCIA` date NOT NULL,
+  `FIMVIGENCIA` date DEFAULT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_HISTORICO_USUARIO` (`CODIGOUSUARIO`),
+  KEY `FK_HISTORICO_EMPRESA` (`CODIGOEMPRESA`),
+  CONSTRAINT `FK_HISTORICO_EMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_HISTORICO_USUARIO` FOREIGN KEY (`CODIGOUSUARIO`) REFERENCES `usuario` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `historicosenha`
+--
+
+LOCK TABLES `historicosenha` WRITE;
+/*!40000 ALTER TABLE `historicosenha` DISABLE KEYS */;
+/*!40000 ALTER TABLE `historicosenha` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `indisponibilidadeespecialista`
+--
+
+DROP TABLE IF EXISTS `indisponibilidadeespecialista`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `indisponibilidadeespecialista` (
+  `ID` decimal(5,0) NOT NULL,
+  `ESPECIALISTA` decimal(5,0) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `INICIO` date NOT NULL,
+  `FIM` date NOT NULL,
+  `OBS` varchar(1000) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_INDISPONIBILIDADE_ESPECIALISTA` (`ESPECIALISTA`),
+  KEY `FK_INDISPONIBILIDADE_ESPEC_EMPRESA` (`CODIGOEMPRESA`),
+  CONSTRAINT `FK_INDISPONIBILIDADE_ESPECIALISTA` FOREIGN KEY (`ESPECIALISTA`) REFERENCES `especialista` (`ID`),
+  CONSTRAINT `FK_INDISPONIBILIDADE_ESPEC_EMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `indisponibilidadeespecialista`
+--
+
+LOCK TABLES `indisponibilidadeespecialista` WRITE;
+/*!40000 ALTER TABLE `indisponibilidadeespecialista` DISABLE KEYS */;
+INSERT INTO `indisponibilidadeespecialista` VALUES (1,1,1,'2024-12-12','2024-12-19','CONGRESSO','ADMIN','2024-08-15 16:12:21',NULL);
+/*!40000 ALTER TABLE `indisponibilidadeespecialista` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `indisponibilidaderecurso`
+--
+
+DROP TABLE IF EXISTS `indisponibilidaderecurso`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `indisponibilidaderecurso` (
+  `ID` decimal(5,0) NOT NULL,
+  `RECURSOLAB` decimal(5,0) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `INICIO` date NOT NULL,
+  `FIM` date NOT NULL,
+  `OBS` varchar(1000) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_INDISPONIBILIDADE_RECURSOLAB` (`RECURSOLAB`),
+  KEY `FK_INDISPONIBILIDADE_EMPRESA` (`CODIGOEMPRESA`),
+  CONSTRAINT `FK_INDISPONIBILIDADE_EMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`),
+  CONSTRAINT `FK_INDISPONIBILIDADE_RECURSOLAB` FOREIGN KEY (`RECURSOLAB`) REFERENCES `recurso` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `indisponibilidaderecurso`
+--
+
+LOCK TABLES `indisponibilidaderecurso` WRITE;
+/*!40000 ALTER TABLE `indisponibilidaderecurso` DISABLE KEYS */;
+INSERT INTO `indisponibilidaderecurso` VALUES (1,1,1,'2024-10-10','2024-10-10','MANUTENCAO','ADMIN','2024-08-15 16:08:48',NULL),(2,2,1,'2024-10-10','2024-10-10','MANUTENCAO','ADMIN','2024-08-15 16:08:48',NULL),(3,3,1,'2024-10-10','2024-10-10','MANUTENCAO','ADMIN','2024-08-15 16:08:48',NULL),(4,4,1,'2024-10-10','2024-10-10','MANUTENCAO','ADMIN','2024-08-15 16:08:48',NULL);
+/*!40000 ALTER TABLE `indisponibilidaderecurso` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `layout`
+--
+
+DROP TABLE IF EXISTS `layout`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `layout` (
+  `ID` decimal(5,0) NOT NULL,
+  `DESCRICAO` varchar(45) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `INICIOVIGENCIA` date NOT NULL,
+  `FIMVIGENCIA` date DEFAULT NULL,
+  `ATIVO` varchar(1) NOT NULL,
+  `TIPO` varchar(1) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_LAYOUT_EMPRESA` (`CODIGOEMPRESA`),
+  CONSTRAINT `FK_LAYOUT_EMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `layout`
+--
+
+LOCK TABLES `layout` WRITE;
+/*!40000 ALTER TABLE `layout` DISABLE KEYS */;
+INSERT INTO `layout` VALUES (1,'MODELO DE CASO ASI',1,'2024-08-15',NULL,'S','C','ADMIN','2024-08-15 14:26:55',NULL),(2,'MODELO DE LAUDO ASI',1,'2024-08-15',NULL,'S','L','ADMIN','2024-08-15 14:26:55',NULL);
+/*!40000 ALTER TABLE `layout` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `layoutcliente`
+--
+
+DROP TABLE IF EXISTS `layoutcliente`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `layoutcliente` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `LAYOUT` decimal(5,0) NOT NULL,
+  `CLIENTE` decimal(5,0) NOT NULL,
+  `EXAME` decimal(5,0) DEFAULT NULL,
+  `ATIVO` varchar(1) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `SISTEMAORIGEM` varchar(45) DEFAULT NULL,
+  `FORMATO` varchar(45) DEFAULT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  `CAMPO` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_LAYOUTCLIENTE_EMPRESA` (`CODIGOEMPRESA`),
+  KEY `FK_LAYOUTCLIENTE_LAYOUT` (`LAYOUT`),
+  KEY `FK_LAYOUTCLIENTE_CLIENTE` (`CLIENTE`),
+  KEY `FK_LAYOUTCLIENTE_EXAME` (`EXAME`),
+  CONSTRAINT `FK_LAYOUTCLIENTE_CLIENTE` FOREIGN KEY (`CLIENTE`) REFERENCES `cliente` (`ID`),
+  CONSTRAINT `FK_LAYOUTCLIENTE_EMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`),
+  CONSTRAINT `FK_LAYOUTCLIENTE_EXAME` FOREIGN KEY (`EXAME`) REFERENCES `exame` (`ID`),
+  CONSTRAINT `FK_LAYOUTCLIENTE_LAYOUT` FOREIGN KEY (`LAYOUT`) REFERENCES `layout` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `layoutcliente`
+--
+
+LOCK TABLES `layoutcliente` WRITE;
+/*!40000 ALTER TABLE `layoutcliente` DISABLE KEYS */;
+INSERT INTO `layoutcliente` VALUES (1,1,1,1,NULL,'S','ADMIN','2024-08-17 18:50:24','ASI','XML',NULL,'ReferringPhysician ');
+/*!40000 ALTER TABLE `layoutcliente` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `paciente`
+--
+
+DROP TABLE IF EXISTS `paciente`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `paciente` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `CLIENTE` decimal(5,0) NOT NULL,
+  `NOME` varchar(100) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `NASCIMENTO` date DEFAULT NULL,
+  `NUMERO` varchar(5) DEFAULT NULL,
+  `COMPLEMENTO` varchar(200) DEFAULT NULL,
+  `CEP` varchar(10) DEFAULT NULL,
+  `TELEFONE` varchar(45) DEFAULT NULL,
+  `CNPJ` varchar(18) DEFAULT NULL,
+  `CPF` varchar(18) DEFAULT NULL,
+  `ATIVO` varchar(1) NOT NULL,
+  `DATACADASTRO` datetime DEFAULT NULL,
+  `EMAIL` varchar(45) DEFAULT NULL,
+  `CELULAR` varchar(45) DEFAULT NULL,
+  `LOGRADOURO` varchar(200) DEFAULT NULL,
+  `TIPOLOGRADOURO` varchar(45) DEFAULT NULL,
+  `BAIRRO` varchar(200) DEFAULT NULL,
+  `CIDADE` varchar(200) DEFAULT NULL,
+  `UF` varchar(2) DEFAULT NULL,
+  `CANALPREFERENCIAL` varchar(1) DEFAULT NULL,
+  `SEXO` varchar(1) DEFAULT NULL,
+  `NOMESOCIAL` varchar(100) DEFAULT NULL,
+  `USUARIOACESSO` varchar(45) DEFAULT NULL,
+  `SENHAACESSO` varchar(45) DEFAULT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_PACIENTE_EMPRESAIDX` (`CODIGOEMPRESA`),
+  KEY `FK_PACIENTE_CLIENTEIDX` (`CLIENTE`),
+  CONSTRAINT `FK_PACIENTE_EMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `paciente` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_PACIENTE_CLIENTE` FOREIGN KEY (`CLIENTE`) REFERENCES `cliente` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `paciente`
+--
+
+LOCK TABLES `paciente` WRITE;
+/*!40000 ALTER TABLE `paciente` DISABLE KEYS */;
+INSERT INTO `paciente` VALUES (1,1,1,'RN DE EVELYN JOVITA CHAGAS','ADMIN','2024-08-18 16:55:48',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'S','2024-08-18 16:55:48',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'M',NULL,NULL,NULL,1);
+/*!40000 ALTER TABLE `paciente` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `parametro`
+--
+
+DROP TABLE IF EXISTS `parametro`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `parametro` (
+  `ID` decimal(5,0) NOT NULL,
+  `CHAVE` varchar(200) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  `PUBLICO` varchar(45) NOT NULL,
+  `OBRIGATORIO` varchar(45) NOT NULL,
+  `OBS` varchar(1000) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `parametro`
+--
+
+LOCK TABLES `parametro` WRITE;
+/*!40000 ALTER TABLE `parametro` DISABLE KEYS */;
+/*!40000 ALTER TABLE `parametro` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `perfil`
+--
+
+DROP TABLE IF EXISTS `perfil`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `perfil` (
+  `ID` decimal(5,0) NOT NULL,
+  `DESCRICAO` varchar(200) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_EMPRESAPERFIL_idx` (`CODIGOEMPRESA`),
+  CONSTRAINT `FK_EMPRESAPERFIL` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `perfil`
+--
+
+LOCK TABLES `perfil` WRITE;
+/*!40000 ALTER TABLE `perfil` DISABLE KEYS */;
+INSERT INTO `perfil` VALUES (1,'ADMINISTRADOR',1,'ADMIN','2024-08-14 23:30:19',NULL),(2,'ADMINISTRATIVO',1,'ADMIN','2024-08-14 23:30:19',NULL),(3,'ESPECIALISTA',1,'ADMIN','2024-08-14 23:30:19',NULL),(4,'CLIENTE',1,'ADMIN','2024-08-14 23:30:19',NULL),(5,'FINANCEIRO',1,'ADMIN','2024-08-14 23:30:19',NULL);
+/*!40000 ALTER TABLE `perfil` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `perfilrecurso`
+--
+
+DROP TABLE IF EXISTS `perfilrecurso`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `perfilrecurso` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGOPERFIL` decimal(5,0) NOT NULL,
+  `CODIGORECURSO` decimal(5,0) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `LEITURA` char(1) NOT NULL,
+  `ESCRITA` char(1) NOT NULL,
+  `CRIACAO` char(1) NOT NULL,
+  `EXCLUSAO` char(1) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_PERFIPERFILRECURSO` (`CODIGOPERFIL`),
+  KEY `FK_RECURSOPERFILRECURSO` (`CODIGORECURSO`),
+  KEY `FK_RECURSOPERFILEMPRESA` (`CODIGOEMPRESA`),
+  CONSTRAINT `FK_PERFIPERFILRECURSO` FOREIGN KEY (`CODIGOPERFIL`) REFERENCES `perfil` (`ID`),
+  CONSTRAINT `FK_RECURSOPERFILEMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`),
+  CONSTRAINT `FK_RECURSOPERFILRECURSO` FOREIGN KEY (`CODIGORECURSO`) REFERENCES `recurso` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `perfilrecurso`
+--
+
+LOCK TABLES `perfilrecurso` WRITE;
+/*!40000 ALTER TABLE `perfilrecurso` DISABLE KEYS */;
+INSERT INTO `perfilrecurso` VALUES (1,1,1,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(2,1,2,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(3,1,3,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(4,1,4,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(5,1,5,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(6,1,6,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(7,1,7,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(8,1,8,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(9,1,9,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(10,1,10,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(11,1,11,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(12,1,12,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(13,1,13,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(14,1,14,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(15,1,15,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(16,1,16,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(17,1,17,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(18,1,18,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(19,1,19,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(20,1,20,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(21,1,21,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(22,1,22,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(23,1,23,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(24,1,24,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(25,1,25,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(26,1,26,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(27,1,27,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(28,1,28,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(29,1,29,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(30,1,30,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(31,1,31,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(32,1,32,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(33,1,33,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(34,1,34,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(35,1,35,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(36,1,36,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(37,1,37,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(38,1,38,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(39,1,39,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(40,1,40,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(41,1,41,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(42,1,42,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(43,1,43,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(44,1,44,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(45,1,45,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(46,1,46,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(47,1,47,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(48,1,48,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(49,1,49,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(50,1,50,1,'S','S','S','S','2024-08-15 13:48:52',NULL,'ADMIN'),(51,3,1,1,'S','S','S','S','2024-08-15 13:56:25',NULL,'ADMIN'),(52,3,3,1,'S','S','S','S','2024-08-15 13:56:25',NULL,'ADMIN'),(53,3,4,1,'S','S','S','S','2024-08-15 13:56:25',NULL,'ADMIN'),(54,3,20,1,'S','S','S','S','2024-08-15 13:56:25',NULL,'ADMIN'),(55,3,21,1,'S','S','S','S','2024-08-15 13:56:25',NULL,'ADMIN'),(56,3,22,1,'S','S','S','S','2024-08-15 13:56:25',NULL,'ADMIN'),(57,3,23,1,'S','S','S','S','2024-08-15 13:56:25',NULL,'ADMIN'),(58,3,24,1,'S','S','S','S','2024-08-15 13:56:25',NULL,'ADMIN'),(59,3,25,1,'S','S','S','S','2024-08-15 13:56:25',NULL,'ADMIN'),(60,3,26,1,'S','S','S','S','2024-08-15 13:56:25',NULL,'ADMIN'),(61,3,27,1,'S','S','S','S','2024-08-15 13:56:26',NULL,'ADMIN'),(62,3,28,1,'S','S','S','S','2024-08-15 13:56:26',NULL,'ADMIN'),(63,3,29,1,'S','S','S','S','2024-08-15 13:56:26',NULL,'ADMIN'),(64,3,30,1,'S','S','S','S','2024-08-15 13:56:26',NULL,'ADMIN'),(65,3,31,1,'S','S','S','S','2024-08-15 13:56:26',NULL,'ADMIN'),(66,3,32,1,'S','S','S','S','2024-08-15 13:56:26',NULL,'ADMIN'),(67,3,37,1,'S','S','S','S','2024-08-15 13:56:26',NULL,'ADMIN'),(68,3,46,1,'S','S','S','S','2024-08-15 13:56:26',NULL,'ADMIN'),(69,3,47,1,'S','S','S','S','2024-08-15 13:56:26',NULL,'ADMIN'),(70,3,48,1,'S','S','S','S','2024-08-15 13:56:26',NULL,'ADMIN'),(71,3,49,1,'S','S','S','S','2024-08-15 13:56:26',NULL,'ADMIN'),(72,3,50,1,'S','S','S','S','2024-08-15 13:56:26',NULL,'ADMIN'),(73,2,1,1,'S','S','S','S','2024-08-15 14:00:41',NULL,'ADMIN'),(74,2,3,1,'S','S','S','S','2024-08-15 14:00:46',NULL,'ADMIN');
+/*!40000 ALTER TABLE `perfilrecurso` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `rastreabilidade`
+--
+
+DROP TABLE IF EXISTS `rastreabilidade`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `rastreabilidade` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `CASO` decimal(5,0) NOT NULL,
+  `EVENTO` decimal(5,0) NOT NULL,
+  `OBS` varchar(1000) DEFAULT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_RASTREABILIDADE_EMPRESA` (`CODIGOEMPRESA`),
+  KEY `FK_RASTREABILIDADE_EVENTO` (`EVENTO`),
+  KEY `FK_RASTREABILIDADE_CASO` (`CASO`),
+  CONSTRAINT `FK_RASTREABILIDADE_CASO` FOREIGN KEY (`CASO`) REFERENCES `caso` (`ID`),
+  CONSTRAINT `FK_RASTREABILIDADE_EMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`),
+  CONSTRAINT `FK_RASTREABILIDADE_EVENTO` FOREIGN KEY (`EVENTO`) REFERENCES `eventos` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `rastreabilidade`
+--
+
+LOCK TABLES `rastreabilidade` WRITE;
+/*!40000 ALTER TABLE `rastreabilidade` DISABLE KEYS */;
+INSERT INTO `rastreabilidade` VALUES (1,1,1,1,NULL,'ADMIN','2024-08-15 21:43:50',NULL);
+/*!40000 ALTER TABLE `rastreabilidade` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `recoleta`
+--
+
+DROP TABLE IF EXISTS `recoleta`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `recoleta` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `CASO` decimal(5,0) NOT NULL,
+  `RESPONSAVEL` decimal(5,0) NOT NULL,
+  `OBS` varchar(1000) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_RECOLETA_EMPRESA` (`CODIGOEMPRESA`),
+  KEY `FK_RECOLETA_CASO` (`CASO`),
+  KEY `FK_RECOLETA_RESPONSAVEL` (`RESPONSAVEL`),
+  CONSTRAINT `FK_RECOLETA_CASO` FOREIGN KEY (`CASO`) REFERENCES `caso` (`ID`),
+  CONSTRAINT `FK_RECOLETA_EMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`),
+  CONSTRAINT `FK_RECOLETA_RESPONSAVEL` FOREIGN KEY (`RESPONSAVEL`) REFERENCES `usuario` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `recoleta`
+--
+
+LOCK TABLES `recoleta` WRITE;
+/*!40000 ALTER TABLE `recoleta` DISABLE KEYS */;
+/*!40000 ALTER TABLE `recoleta` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `recurso`
+--
+
+DROP TABLE IF EXISTS `recurso`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `recurso` (
+  `ID` decimal(5,0) NOT NULL,
+  `DESCRICAO` varchar(200) NOT NULL,
+  `URL` varchar(200) DEFAULT NULL,
+  `CODIGORECURSOPAI` decimal(5,0) DEFAULT NULL,
+  `NOMERECURSO` varchar(200) NOT NULL,
+  `INDICADORTELAINICIAL` char(1) NOT NULL,
+  `NUMEROPRIORIDADE` decimal(5,0) NOT NULL,
+  `ATALHO` varchar(10) DEFAULT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  `ATIVO` char(1) NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_RECURSO_REC` (`CODIGORECURSOPAI`),
+  CONSTRAINT `FK_RECURSO_REC` FOREIGN KEY (`CODIGORECURSOPAI`) REFERENCES `recurso` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `recurso`
+--
+
+LOCK TABLES `recurso` WRITE;
+/*!40000 ALTER TABLE `recurso` DISABLE KEYS */;
+INSERT INTO `recurso` VALUES (1,'Configuracoes',NULL,NULL,'Configuracoes','N',1,'N','admin','2024-08-15 12:54:16',NULL,'S'),(2,'Parametros','https://citohealth.com.br/parametros.xhtml',1,'Parametros','N',2,'N','admin','2024-08-15 12:56:06',NULL,'S'),(3,'Senha','https://citohealth.com.br/resetsenha.xhtml',1,'Reset Senha','N',3,'N','admin','2024-08-15 12:56:47',NULL,'S'),(4,'Cadastros',NULL,NULL,'Cadastros','N',4,'N','admin','2024-08-15 12:58:46',NULL,'S'),(5,'Exame','https://citohealth.com.br/exame.xhtml',4,'Exame','N',6,'N','admin','2024-08-15 13:16:09',NULL,'S'),(6,'Usuario','https://citohealth.com.br/usuario.xhtml',4,'Usuario','N',7,'N','admin','2024-08-15 13:16:09',NULL,'S'),(7,'Especialista','https://citohealth.com.br/especialista.xhtml',4,'Especialista','N',8,'N','admin','2024-08-15 13:16:09',NULL,'S'),(8,'Recurso','https://citohealth.com.br/recurso.xhtml',4,'Recurso','N',9,'N','admin','2024-08-15 13:16:09',NULL,'S'),(9,'Cliente','https://citohealth.com.br/cliente.xhtml',4,'Cliente','N',10,'N','admin','2024-08-15 13:16:09',NULL,'S'),(10,'Perfil','https://citohealth.com.br/perfil.xhtml',4,'Perfil','N',11,'N','admin','2024-08-15 13:16:09',NULL,'S'),(11,'Associacao Perfil','https://citohealth.com.br/associacaoperfil.xhtml',4,'Associacao Perfil','N',12,'N','admin','2024-08-15 13:16:09',NULL,'S'),(12,'Tabela Preco','https://citohealth.com.br/tabela.xhtml',4,'Tabela Preco','N',13,'N','admin','2024-08-15 13:16:09',NULL,'S'),(13,'Tabela RV Exame','https://citohealth.com.br/tabela.xhtml',4,'Tabela RV','N',14,'N','admin','2024-08-15 13:16:09',NULL,'S'),(14,'SLA','https://citohealth.com.br/sla.xhtml',4,'SLA','N',15,'N','admin','2024-08-15 13:16:09',NULL,'S'),(15,'Evento','https://citohealth.com.br/evento.xhtml',4,'Evento','N',16,'N','admin','2024-08-15 13:16:09',NULL,'S'),(16,'Fluxo','https://citohealth.com.br/fluxo.xhtml',4,'Fluxo','N',17,'N','admin','2024-08-15 13:16:09',NULL,'S'),(17,'Etapa','https://citohealth.com.br/etapa.xhtml',4,'Etapa','N',18,'N','admin','2024-08-15 13:16:09',NULL,'S'),(18,'Regra','https://citohealth.com.br/regra.xhtml',4,'Regra','N',19,'N','admin','2024-08-15 13:16:09',NULL,'S'),(19,'Comunicacao','https://citohealth.com.br/comunicacao.xhtml',4,'Comunicacao','N',20,'N','admin','2024-08-15 13:16:09',NULL,'S'),(20,'Rotinas',NULL,NULL,'Rotinas','N',21,'N','admin','2024-08-15 13:17:40',NULL,'S'),(21,'Disponibilidade Especialista','https://citohealth.com.br/disponibilidadeespecialista.xhtml',20,'Disp Especialista','N',22,'N','admin','2024-08-15 13:27:13',NULL,'S'),(22,'Disponibilidade Recurso','https://citohealth.com.br/disponibilidaderecurso.xhtml',20,'Disp Recurso','N',23,'N','admin','2024-08-15 13:27:13',NULL,'S'),(23,'Indisponibilidade Especialista','https://citohealth.com.br/indisponibilidadeespec.xhtml',20,'Indisponibilidade Espec','N',24,'N','admin','2024-08-15 13:27:13',NULL,'S'),(24,'Indisponibilidade Recurso','https://citohealth.com.br/indisponibilidaderecurso.xhtml',20,'Indisponibilidade Recurso','N',25,'N','admin','2024-08-15 13:27:13',NULL,'S'),(25,'Urgencia','https://citohealth.com.br/urgencia.xhtml',20,'Urgencia','N',26,'N','admin','2024-08-15 13:27:13',NULL,'S'),(26,'Usuario online','https://citohealth.com.br/usuarioonline.xhtml',20,'Usuario online','N',27,'N','admin','2024-08-15 13:27:13',NULL,'S'),(27,'Importacao Caso','https://citohealth.com.br/importacaocaso.xhtml',20,'Importacao Caso','N',28,'N','admin','2024-08-15 13:27:13',NULL,'S'),(28,'Importacao Laudo','https://citohealth.com.br/importacaolaudo.xhtml',20,'Importacao Laudo','N',29,'N','admin','2024-08-15 13:27:13',NULL,'S'),(29,'Consulta Caso','https://citohealth.com.br/consultacaso.xhtml',20,'Consulta Caso','N',30,'N','admin','2024-08-15 13:27:13',NULL,'S'),(30,'Apontamento','https://citohealth.com.br/apontamento.xhtml',20,'Apontamento','N',31,'N','admin','2024-08-15 13:27:13',NULL,'S'),(31,'Recoleta','https://citohealth.com.br/recoleta.xhtml',20,'Recoleta','N',32,'N','admin','2024-08-15 13:27:13',NULL,'S'),(32,'Retificacao','https://citohealth.com.br/retificacao.xhtml',20,'Retificacao','N',33,'N','admin','2024-08-15 13:27:13',NULL,'S'),(33,'Calculo RV','https://citohealth.com.br/calculorv.xhtml',20,'Calculo RV','N',34,'N','admin','2024-08-15 13:27:13',NULL,'S'),(34,'Escala','https://citohealth.com.br/escala.xhtml',20,'Escala','N',35,'N','admin','2024-08-15 13:27:13',NULL,'S'),(35,'Troca Escala','https://citohealth.com.br/trocaescala.xhtml',20,'Troca Escala','N',36,'N','admin','2024-08-15 13:27:13',NULL,'S'),(36,'Consulta Escala','https://citohealth.com.br/consultaescala.xhtml',20,'Consulta Escala','N',37,'N','admin','2024-08-15 13:27:13',NULL,'S'),(37,'Relatorios',NULL,NULL,'Relatorios','N',38,'N','admin','2024-08-15 13:28:35',NULL,'S'),(38,'Logs','https://citohealth.com.br/logs.xhtml',37,'Logs','N',39,'N','admin','2024-08-15 13:34:56',NULL,'S'),(39,'Produtividade Especialista','https://citohealth.com.br/produtividade.xhtml',37,'Produtividade Espec','N',40,'N','admin','2024-08-15 13:34:56',NULL,'S'),(40,'Financeiro','https://citohealth.com.br/financeiro.xhtml',37,'Financeiro','N',41,'N','admin','2024-08-15 13:34:56',NULL,'S'),(41,'Fechamento','https://citohealth.com.br/fechamento.xhtml',37,'Fechamento','N',42,'N','admin','2024-08-15 13:34:56',NULL,'S'),(42,'Exames/Laudos','https://citohealth.com.br/exameslaudos.xhtml',37,'Exames/Laudos','N',43,'N','admin','2024-08-15 13:34:56',NULL,'S'),(43,'Retificacos','https://citohealth.com.br/retificacoes.xhtml',37,'Retificacoes','N',44,'N','admin','2024-08-15 13:34:56',NULL,'S'),(44,'Liberacao Laudo','https://citohealth.com.br/liberacao.xhtml',37,'Liberacao Laudos','N',45,'N','admin','2024-08-15 13:34:56',NULL,'S'),(45,'Dashboard','https://citohealth.com.br/dashboard.xhtml',37,'Dashboard','N',46,'N','admin','2024-08-15 13:34:56',NULL,'S'),(46,'Mapa Trabalho','https://citohealth.com.br/mapatrabalho.xhtml',37,'Mapa Trabalho','N',47,'N','admin','2024-08-15 13:34:56',NULL,'S'),(47,'Escala','https://citohealth.com.br/escala.xhtml',37,'Escala','N',48,'N','admin','2024-08-15 13:35:11',NULL,'S'),(48,'Ajuda',NULL,NULL,'Ajuda','N',49,'N','admin','2024-08-15 13:36:17',NULL,'S'),(49,'Manual','https://citohealth.com.br/manual.pdf',48,'Manual','N',49,'N','admin','2024-08-15 13:36:53',NULL,'S'),(50,'Tipo Exame','https://citohealth.com.br/tipoexame.xhtml',4,'Manual','N',50,'N','admin','2024-08-15 13:42:52',NULL,'S');
+/*!40000 ALTER TABLE `recurso` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `recursolab`
+--
+
+DROP TABLE IF EXISTS `recursolab`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `recursolab` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  `DESCRICAO` varchar(100) NOT NULL,
+  `LOCALIZACAO` varchar(100) NOT NULL,
+  `IDENTIFICADOR` varchar(100) NOT NULL,
+  `PATRIMONIO` varchar(100) NOT NULL,
+  `ATIVO` varchar(100) NOT NULL,
+  `DATACADASTRO` datetime DEFAULT NULL,
+  `RESPONSAVELMANUTENCAO` varchar(100) NOT NULL,
+  `DATAULTIMAMANUTENCAO` datetime DEFAULT NULL,
+  `DATAPROXIMAMANUTENCAO` datetime DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_EMPRESA_RECURSOLAB_idx` (`CODIGOEMPRESA`),
+  CONSTRAINT `FK_EMPRESA_RECURSOLAB` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `recursolab`
+--
+
+LOCK TABLES `recursolab` WRITE;
+/*!40000 ALTER TABLE `recursolab` DISABLE KEYS */;
+INSERT INTO `recursolab` VALUES (1,1,'ADMIN','2024-08-15 16:04:50',NULL,'ESTACAO DE TRABALHO 1','AREA TECNICA','0001','INFOCITO0001','S','2024-08-15 16:04:50','KEILA','2023-12-12 00:00:00','2024-10-10 00:00:00'),(2,1,'ADMIN','2024-08-15 16:04:50',NULL,'ESTACAO DE TRABALHO 2','AREA TECNICA','0002','INFOCITO0002','S','2024-08-15 16:04:50','KEILA','2023-12-12 00:00:00','2024-10-10 00:00:00'),(3,1,'ADMIN','2024-08-15 16:04:50',NULL,'MICROSCOPIO DIG 1','AREA TECNICA','0003','INFOCITO0003','S','2024-08-15 16:04:50','KEILA','2023-12-12 00:00:00','2024-10-10 00:00:00'),(4,1,'ADMIN','2024-08-15 16:04:50',NULL,'MICROSCOPIO DIG 2','AREA TECNICA','0004','INFOCITO0004','S','2024-08-15 16:04:50','KEILA','2023-12-12 00:00:00','2024-10-10 00:00:00');
+/*!40000 ALTER TABLE `recursolab` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `retificacao`
+--
+
+DROP TABLE IF EXISTS `retificacao`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `retificacao` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `CASO` decimal(5,0) NOT NULL,
+  `RESPONSAVEL` decimal(5,0) NOT NULL,
+  `OBS` varchar(1000) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_RETIFICACAO_EMPRESA` (`CODIGOEMPRESA`),
+  KEY `FK_RETIFICACAO_CASO` (`CASO`),
+  KEY `FK_RETIFICACAO_RESPONSAVEL` (`RESPONSAVEL`),
+  CONSTRAINT `FK_RETIFICACAO_CASO` FOREIGN KEY (`CASO`) REFERENCES `caso` (`ID`),
+  CONSTRAINT `FK_RETIFICACAO_EMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`),
+  CONSTRAINT `FK_RETIFICACAO_RESPONSAVEL` FOREIGN KEY (`RESPONSAVEL`) REFERENCES `usuario` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `retificacao`
+--
+
+LOCK TABLES `retificacao` WRITE;
+/*!40000 ALTER TABLE `retificacao` DISABLE KEYS */;
+/*!40000 ALTER TABLE `retificacao` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sla`
+--
+
+DROP TABLE IF EXISTS `sla`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sla` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `CLIENTE` decimal(5,0) NOT NULL,
+  `EXAME` decimal(5,0) NOT NULL,
+  `CONTRATO` decimal(5,0) NOT NULL,
+  `HORAS` varchar(5) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_SLA_EMPRESA` (`CODIGOEMPRESA`),
+  KEY `FK_SLA_CLIENTE` (`CLIENTE`),
+  KEY `FK_SLA_CONTRATO` (`CONTRATO`),
+  KEY `FK_SLA_EXAME` (`EXAME`),
+  CONSTRAINT `FK_SLA_CLIENTE` FOREIGN KEY (`CLIENTE`) REFERENCES `cliente` (`ID`),
+  CONSTRAINT `FK_SLA_CONTRATO` FOREIGN KEY (`CONTRATO`) REFERENCES `contrato` (`ID`),
+  CONSTRAINT `FK_SLA_EMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`),
+  CONSTRAINT `FK_SLA_EXAME` FOREIGN KEY (`EXAME`) REFERENCES `exame` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sla`
+--
+
+LOCK TABLES `sla` WRITE;
+/*!40000 ALTER TABLE `sla` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sla` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `slavencido`
+--
+
+DROP TABLE IF EXISTS `slavencido`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `slavencido` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `CASO` decimal(5,0) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_SLAVENCIDO_EMPRESA` (`CODIGOEMPRESA`),
+  KEY `FK_SLAVENCIDO_CASO` (`CASO`),
+  CONSTRAINT `FK_SLAVENCIDO_CASO` FOREIGN KEY (`CASO`) REFERENCES `caso` (`ID`),
+  CONSTRAINT `FK_SLAVENCIDO_EMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `slavencido`
+--
+
+LOCK TABLES `slavencido` WRITE;
+/*!40000 ALTER TABLE `slavencido` DISABLE KEYS */;
+/*!40000 ALTER TABLE `slavencido` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tabela`
+--
+
+DROP TABLE IF EXISTS `tabela`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tabela` (
+  `ID` decimal(5,0) NOT NULL,
+  `DESCRICAO` varchar(200) NOT NULL,
+  `TIPO` varchar(1) NOT NULL,
+  `INICIOVIGENCIA` date NOT NULL,
+  `FIMVIGENCIA` date DEFAULT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_EMPRESATABELAIDX` (`CODIGOEMPRESA`),
+  CONSTRAINT `FK_TABELA_EMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tabela`
+--
+
+LOCK TABLES `tabela` WRITE;
+/*!40000 ALTER TABLE `tabela` DISABLE KEYS */;
+INSERT INTO `tabela` VALUES (1,'TABELA RV PADRAO','R','2024-08-14',NULL,1,'ADMIN','2024-08-14 21:48:51',NULL),(2,'TABELA PRECO PADRAO','P','2024-08-14',NULL,1,'ADMIN','2024-08-14 21:49:12',NULL);
+/*!40000 ALTER TABLE `tabela` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tabelaexame`
+--
+
+DROP TABLE IF EXISTS `tabelaexame`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tabelaexame` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGOTABELA` decimal(5,0) NOT NULL,
+  `CODIGOEXAME` decimal(5,0) NOT NULL,
+  `PRECO` decimal(5,2) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_TABELAEXAME` (`CODIGOTABELA`),
+  KEY `FK_EXAME_TABELAEXAME` (`CODIGOEXAME`),
+  CONSTRAINT `FK_EXAME_TABELAEXAME` FOREIGN KEY (`CODIGOEXAME`) REFERENCES `exame` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_TABELAEXAME` FOREIGN KEY (`CODIGOTABELA`) REFERENCES `tabela` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tabelaexame`
+--
+
+LOCK TABLES `tabelaexame` WRITE;
+/*!40000 ALTER TABLE `tabelaexame` DISABLE KEYS */;
+INSERT INTO `tabelaexame` VALUES (1,1,1,23.00,'ADMIN','2024-08-14 23:27:00',NULL),(2,1,2,23.00,'ADMIN','2024-08-14 23:27:00',NULL),(3,1,3,23.00,'ADMIN','2024-08-14 23:27:00',NULL),(4,1,4,23.00,'ADMIN','2024-08-14 23:27:00',NULL),(5,2,1,890.00,'ADMIN','2024-08-14 23:27:00',NULL),(6,2,2,910.00,'ADMIN','2024-08-14 23:27:00',NULL),(7,2,3,745.00,'ADMIN','2024-08-14 23:27:00',NULL),(8,2,4,690.00,'ADMIN','2024-08-14 23:27:00',NULL);
+/*!40000 ALTER TABLE `tabelaexame` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tipoexame`
+--
+
+DROP TABLE IF EXISTS `tipoexame`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tipoexame` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGO` varchar(200) NOT NULL,
+  `DESCRICAO` varchar(200) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_EMPRESATIPOEXAME_idx` (`CODIGOEMPRESA`),
+  CONSTRAINT `FK_EMPRESATIPOEXAME` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tipoexame`
+--
+
+LOCK TABLES `tipoexame` WRITE;
+/*!40000 ALTER TABLE `tipoexame` DISABLE KEYS */;
+INSERT INTO `tipoexame` VALUES (1,'CARIO','CARIOTIPO',1,'ADMIN','2024-08-14 23:18:09',NULL),(2,'FISH','FISH',1,'ADMIN','2024-08-14 23:18:09',NULL);
+/*!40000 ALTER TABLE `tipoexame` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `trace`
+--
+
+DROP TABLE IF EXISTS `trace`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `trace` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `TIPO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `NIVEL` char(1) NOT NULL,
+  `MENSAGEM` varchar(65000) NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `TIPO` (`TIPO`),
+  KEY `NIVEL` (`NIVEL`),
+  KEY `DATAHORA` (`DATAHORA`),
+  KEY `USUARIO` (`DATAHORA`),
+  KEY `FK_TRACE_EMPRESA` (`CODIGOEMPRESA`),
+  CONSTRAINT `FK_TRACE_EMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `trace`
+--
+
+LOCK TABLES `trace` WRITE;
+/*!40000 ALTER TABLE `trace` DISABLE KEYS */;
+/*!40000 ALTER TABLE `trace` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `urgencia`
+--
+
+DROP TABLE IF EXISTS `urgencia`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `urgencia` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `CASO` decimal(5,0) NOT NULL,
+  `RESPONSAVEL` decimal(5,0) NOT NULL,
+  `OBS` varchar(1000) NOT NULL,
+  `DATAALVO` date DEFAULT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_URGENCIA_EMPRESA` (`CODIGOEMPRESA`),
+  KEY `FK_URGENCIA_CASO` (`CASO`),
+  KEY `FK_URGENCIA_USUARIO` (`RESPONSAVEL`),
+  CONSTRAINT `FK_URGENCIA_CASO` FOREIGN KEY (`CASO`) REFERENCES `caso` (`ID`),
+  CONSTRAINT `FK_URGENCIA_EMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`),
+  CONSTRAINT `FK_URGENCIA_USUARIO` FOREIGN KEY (`RESPONSAVEL`) REFERENCES `usuario` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `urgencia`
+--
+
+LOCK TABLES `urgencia` WRITE;
+/*!40000 ALTER TABLE `urgencia` DISABLE KEYS */;
+INSERT INTO `urgencia` VALUES (1,1,1,2,'HP LIGOU SOLICITANTO URGENCIA',NULL,'ADMIN','2024-08-15 21:15:22',NULL);
+/*!40000 ALTER TABLE `urgencia` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `usuario`
+--
+
+DROP TABLE IF EXISTS `usuario`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `usuario` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `NOME` varchar(150) NOT NULL,
+  `NOMESOCIAL` varchar(150) DEFAULT NULL,
+  `SIGLA` varchar(5) DEFAULT NULL,
+  `EMAIL` varchar(45) NOT NULL,
+  `CPF` varchar(45) NOT NULL,
+  `CELULAR` varchar(45) NOT NULL,
+  `NASCIMENTO` date NOT NULL,
+  `PERFIL` decimal(5,0) DEFAULT NULL,
+  `SENHA` varchar(45) NOT NULL,
+  `SENHAEXPIRA` char(1) NOT NULL,
+  `ULTIMOACESSO` datetime DEFAULT NULL,
+  `ATIVO` char(1) NOT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_PERFIL_USUARIO_idx` (`PERFIL`),
+  KEY `FK_USUARIO_EMPRESA` (`CODIGOEMPRESA`),
+  CONSTRAINT `FK_PERFIL_USUARIO` FOREIGN KEY (`PERFIL`) REFERENCES `perfil` (`ID`),
+  CONSTRAINT `FK_USUARIO_EMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `usuario`
+--
+
+LOCK TABLES `usuario` WRITE;
+/*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
+INSERT INTO `usuario` VALUES (1,1,'ALINE SOUZA',NULL,'AAPS','aline@teste.com.br','01247066655','(31)99999-9999','1983-02-02',2,'698dc19d489c4e4db73e28a713eab07b','S','2024-08-14 23:40:50','S','admin','2024-08-14 23:40:50',NULL),(2,1,'KEILA INFOCITO',NULL,'KINFO','keila@infocito.com.br','01247066655','(31)99999-9999','1980-03-01',1,'698dc19d489c4e4db73e28a713eab07b','S','2024-08-14 23:40:50','S','admin','2024-08-14 23:40:50',NULL),(3,1,'ALEX MAGNO FERREIRA',NULL,'ALEX','alex@infocito.com.br','01247066655','(31)99999-9999','1970-03-01',3,'698dc19d489c4e4db73e28a713eab07b','S','2024-08-14 23:40:50','S','admin','2024-08-14 23:40:50',NULL),(4,1,'FRANCISCO PEIXOTO',NULL,'FRAN','francisco@infocito.com.br','01247066655','(31) 99999-9999','1975-02-02',3,'698dc19d489c4e4db73e28a713eab07b','S','2024-08-14 23:51:03','S','admin','2024-08-14 23:51:03',NULL),(5,1,'MAURICIO GONÇALVES PINTO',NULL,'MAGP','mauricio@infocito.com.br','01247066655','(31) 99999-9999','1976-02-02',3,'698dc19d489c4e4db73e28a713eab07b','S','2024-08-14 23:51:03','S','admin','2024-08-14 23:51:03',NULL),(6,1,'JOSE FRANCISCO PINTO SOUZA',NULL,'JFPS','jose.francisco@infocito.com.br','01247066655','(31) 99999-9999','1988-02-02',3,'698dc19d489c4e4db73e28a713eab07b','S','2024-08-14 23:51:03','S','admin','2024-08-14 23:51:03',NULL);
+/*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `valorparametro`
+--
+
+DROP TABLE IF EXISTS `valorparametro`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `valorparametro` (
+  `ID` decimal(5,0) NOT NULL,
+  `CODIGOPARAMETRO` decimal(5,0) NOT NULL,
+  `CODIGOEMPRESA` decimal(5,0) NOT NULL,
+  `VALOR` varchar(200) NOT NULL,
+  `INICIOVIGENCIA` datetime NOT NULL,
+  `FIMVIGENCIA` datetime DEFAULT NULL,
+  `USUARIO` varchar(45) NOT NULL,
+  `DATAHORA` datetime NOT NULL,
+  `VERSION` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_VALORPARAMETRO_EMPRESA_idx` (`CODIGOEMPRESA`),
+  KEY `FK_PARAMETRO_idx` (`CODIGOPARAMETRO`),
+  CONSTRAINT `FK_VALORPARAMETRO_EMPRESA` FOREIGN KEY (`CODIGOEMPRESA`) REFERENCES `empresa` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `valorparametro`
+--
+
+LOCK TABLES `valorparametro` WRITE;
+/*!40000 ALTER TABLE `valorparametro` DISABLE KEYS */;
+/*!40000 ALTER TABLE `valorparametro` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2024-08-20 23:27:00
